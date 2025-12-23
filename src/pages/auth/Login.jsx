@@ -19,7 +19,6 @@ const Login = () => {
 
     try {
       if (isSignup) {
-        // SIGNUP
         await axios.post("/auth/register", {
           name,
           email,
@@ -27,7 +26,6 @@ const Login = () => {
         });
       }
 
-      // LOGIN after signup or normal login
       await login(email, password);
 
       if (isAdmin) {
