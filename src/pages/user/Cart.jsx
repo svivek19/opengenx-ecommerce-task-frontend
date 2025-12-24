@@ -1,32 +1,10 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowLeft, FaTrash, FaShoppingBag } from "react-icons/fa";
 import Navbar from "../../components/user/Navbar";
+import { useCart } from "../../context/CartContext";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      _id: "p1",
-      name: "Vitamin C Serum",
-      price: 899,
-      quantity: 2,
-    },
-    {
-      _id: "p2",
-      name: "React Handbook",
-      price: 699,
-      quantity: 1,
-    },
-  ]);
-
-  const handleRemove = (id) => {
-    setCartItems(cartItems.filter((item) => item._id !== id));
-  };
-
-  const totalAmount = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const { cartItems, removeFromCart, totalAmount } = useCart();
 
   return (
     <>
@@ -59,7 +37,7 @@ const Cart = () => {
                 </div>
 
                 <button
-                  onClick={() => handleRemove(item._id)}
+                  onClick={() => removeFromCart(item._id)}
                   className="text-red-600 hover:text-red-800"
                 >
                   <FaTrash />
