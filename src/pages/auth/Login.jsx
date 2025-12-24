@@ -49,7 +49,7 @@ const Login = () => {
       setError(err.response?.data?.message || "Something went wrong");
     }
   };
-  if (loading || user) return null;
+  if (user) return null;
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 px-4">
       <form
@@ -115,9 +115,10 @@ const Login = () => {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition"
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition disabled:opacity-70"
         >
-          {isSignup ? "Create Account" : "Login"}
+          {loading ? "Please wait..." : isSignup ? "Create Account" : "Login"}
         </button>
 
         {/* Toggle */}

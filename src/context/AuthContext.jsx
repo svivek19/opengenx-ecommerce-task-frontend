@@ -6,7 +6,8 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -16,21 +17,25 @@ export const AuthProvider = ({ children }) => {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
     }
-    setLoading(false);
+    setInitialLoading(false);
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post("/auth/login", { email, password });
+    setAuthLoading(true);
+    try {
+      const res = await axios.post("/auth/login", { email, password });
 
-    const { token, role, name, _id } = res.data;
+      const { token, role, name, _id } = res.data;
+      const userData = { _id, name, email, role };
 
-    const userData = { _id, name, email, role };
+      setToken(token);
+      setUser(userData);
 
-    setToken(token);
-    setUser(userData);
-
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userData));
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   const logout = () => {
@@ -47,12 +52,12 @@ export const AuthProvider = ({ children }) => {
         token,
         login,
         logout,
-        loading,
+        loading: authLoading,
         isAdmin: user?.role === "admin",
         isUser: user?.role === "user",
       }}
     >
-      {!loading && children}
+      {!initialLoading && children}
     </AuthContext.Provider>
   );
 };
