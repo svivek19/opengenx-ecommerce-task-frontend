@@ -75,14 +75,14 @@ const ProductList = () => {
             <input
               type="text"
               placeholder="Search products..."
-              className="w-full pl-10 pr-3 py-2 border rounded"
+              className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
 
           <select
-            className="border rounded px-3 py-2"
+            className="border border-gray-300 rounded-md px-3 py-2"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
@@ -94,7 +94,7 @@ const ProductList = () => {
           </select>
 
           <select
-            className="border rounded px-3 py-2"
+            className="border border-gray-300 rounded-md px-3 py-2"
             value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
